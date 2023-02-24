@@ -95,10 +95,21 @@ public class HttpServer {
                 request = request.replace("invoke", "").replace("(", "").replace(")", "").replace("%20", "");
                 String searchClass = request.split(",")[0];
                 String searchMethod = request.split(",")[1];
-                System.out.println("invokePrueba " + searchClass + " " + searchMethod);
-                System.out.println(response.invokeClassMethod(searchClass, searchMethod));
+                outputLine = "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type: text/html\r\n"
+                        + "\r\n"
+                        + response.invokeClassMethod(searchClass, searchMethod);
             } else if (request.startsWith("unaryInvoke")){
-                System.out.println("unary" + request);
+                request = request.replace("unaryInvoke", "").replace("(", "").replace(")", "").replace("%20", "");
+                String searchClass = request.split(",")[0];
+                String searchMethod = request.split(",")[1];
+                String paramType = request.split(",")[2];
+                String paramValue = request.split(",")[3];
+                System.out.println("unary " + searchClass + " " + searchMethod + " " + paramType + " " + paramValue);
+                outputLine = "HTTP/1.1 200 OK\r\n"
+                        + "Content-Type: text/html\r\n"
+                        + "\r\n"
+                        + response.unaryInvoke(searchClass, searchMethod, paramType, paramValue);
             }
             System.out.println(outputLine);
             out.println(outputLine);
